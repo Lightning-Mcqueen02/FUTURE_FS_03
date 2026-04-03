@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRIME FITNESS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #04060f;
+      --blue: #3b82f6;
+      --neon: #00e5ff;
+      --purple: #a855f7;
+      --pink: #f472b6;
+      --gold: #f59e0b;
+      --green: #22c55e;
+      --text: #f1f5f9;
+      --muted: #64748b;
+      --glass: rgba(255,255,255,0.04);
+      --gb: rgba(255,255,255,0.08);
+      --r: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 5%;
+      background: rgba(4,6,15,0.72); backdrop-filter: blur(22px);
+      border-bottom: 1px solid rgba(255,255,255,0.06); transition: background 0.4s;
+    }
+    nav.scrolled { background: rgba(4,6,15,0.97); }
+    .logo {
+      font-family: 'Syne', sans-serif; font-weight: 900; font-size: 1.35rem;
+      display: flex; align-items: center; gap: 0.5rem; text-decoration: none;
+      background: linear-gradient(135deg, var(--neon), var(--blue));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .logo-box {
+      width: 34px; height: 34px; border-radius: 9px;
+      background: linear-gradient(135deg, var(--neon), var(--blue));
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .logo-box svg { display: block; }
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 500;
+      transition: color 0.2s; display: flex; align-items: center; gap: 0.35rem;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .btn-nav {
+      background: linear-gradient(135deg, var(--neon), var(--blue)) !important;
+      color: #000 !important; font-weight: 700 !important;
+      padding: 0.55rem 1.3rem; border-radius: 50px;
+      box-shadow: 0 0 22px rgba(0,229,255,0.3);
+      transition: box-shadow 0.2s, transform 0.2s !important;
+    }
+    .btn-nav:hover { box-shadow: 0 0 38px rgba(0,229,255,0.55) !important; transform: translateY(-2px); }
+
+    /* HERO */
+    #hero {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      padding: 7rem 5% 5rem; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1800&q=85') center/cover no-repeat;
+    }
+    .hero-bg::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(4,6,15,0.6) 0%, rgba(4,6,15,0.45) 40%, rgba(4,6,15,0.9) 100%);
+    }
+    .hero-bg::before {
+      content: ''; position: absolute; inset: 0; z-index: 1;
+      background:
+        radial-gradient(ellipse 70% 50% at 15% 25%, rgba(0,229,255,0.13), transparent 60%),
+        radial-gradient(ellipse 50% 40% at 85% 75%, rgba(168,85,247,0.1), transparent 60%);
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 860px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.25);
+      border-radius: 50px; padding: 0.4rem 1.1rem; font-size: 0.78rem;
+      color: var(--neon); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: 1.75rem; animation: fadeUp 0.8s ease both;
+    }
+    .dot-live { width: 7px; height: 7px; background: var(--neon); border-radius: 50%; animation: livePulse 1.5s infinite; flex-shrink: 0; }
+    @keyframes livePulse { 0%,100%{box-shadow:0 0 0 0 rgba(0,229,255,0.7)} 50%{box-shadow:0 0 0 6px rgba(0,229,255,0)} }
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3rem, 5vw, 4rem);
+      font-weight: 900; line-height: 1.0; letter-spacing: -0.04em;
+      margin-bottom: 1.5rem; animation: fadeUp 0.8s 0.1s ease both;
+    }
+    .hero-title .wh { display: block; color: #fff; text-shadow: 0 2px 40px rgba(0,0,0,0.5); }
+    .hero-title .gr {
+      display: block;
+      background: linear-gradient(135deg, var(--neon) 0%, #60a5fa 45%, var(--purple) 90%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 30px rgba(0,229,255,0.4));
+    }
+    .cursor { display: inline-block; width: 4px; height: 0.85em; background: var(--neon); margin-left: 3px; vertical-align: middle; animation: blink 1s step-end infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem); color: rgba(241,245,249,0.75);
+      max-width: 540px; margin: 0 auto 2.5rem; line-height: 1.75;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+    .hero-btns {
+      display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--neon), var(--blue));
+      color: #000; font-weight: 700; font-size: 1rem;
+      padding: 0.9rem 2rem; border-radius: 50px; border: none; cursor: pointer;
+      box-shadow: 0 4px 30px rgba(0,229,255,0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 45px rgba(0,229,255,0.55); }
+    .btn-ghost {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15);
+      color: var(--text); font-weight: 500; font-size: 1rem;
+      padding: 0.9rem 2rem; border-radius: 50px;
+      backdrop-filter: blur(12px); transition: border-color 0.2s, background 0.2s;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .btn-ghost:hover { border-color: rgba(0,229,255,0.4); background: rgba(0,229,255,0.05); }
+    .hero-stats {
+      display: flex; align-items: center; justify-content: center; gap: 2.5rem; flex-wrap: wrap;
+      margin-top: 4rem; animation: fadeUp 0.8s 0.4s ease both;
+    }
+    .stat { text-align: center; }
+    .stat-n {
+      font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 900;
+      background: linear-gradient(135deg, var(--neon), #60a5fa);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-l { font-size: 0.75rem; color: rgba(241,245,249,0.5); margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.06em; }
+    .stat-div { width: 1px; height: 36px; background: rgba(255,255,255,0.1); }
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+      color: rgba(241,245,249,0.35); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+      animation: fadeUp 1s 0.8s ease both; z-index: 2;
+    }
+    .scroll-hint svg { animation: bounce 2s infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+
+    /* COMMON */
+    section { position: relative; z-index: 2; }
+    .s-inner { max-width: 1200px; margin: 0 auto; padding: 6rem 5%; }
+    .s-label {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--neon); margin-bottom: 0.9rem;
+    }
+    .s-label::before { content: ''; width: 22px; height: 1px; background: var(--neon); display: block; }
+    .s-title {
+      font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1rem;
+    }
+    .s-title .ac { background: linear-gradient(135deg, var(--neon), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .s-sub { color: var(--muted); font-size: 1rem; max-width: 480px; line-height: 1.75; }
+
+    /* FEATURES */
+    #features { background: linear-gradient(to bottom, var(--bg), #060b1a); }
+    .feat-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(265px,1fr)); gap: 1.25rem; margin-top: 3rem; }
+    .feat-card {
+      background: var(--glass); border: 1px solid var(--gb);
+      border-radius: var(--r); padding: 1.75rem;
+      backdrop-filter: blur(16px); cursor: default;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .feat-card:hover { transform: translateY(-6px); border-color: rgba(0,229,255,0.22); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+    .fi {
+      width: 50px; height: 50px; border-radius: 13px;
+      display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem;
+    }
+    .feat-card h3 { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .feat-card p { color: var(--muted); font-size: 0.875rem; line-height: 1.65; }
+    .f-tag {
+      display: inline-block; margin-top: 1rem; font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase; border-radius: 50px; padding: 0.22rem 0.7rem; border: 1px solid;
+    }
+
+    /* QUOTES */
+    #quotes {
+      position: relative; overflow: hidden;
+      background: url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=1800&q=80') center/cover no-repeat fixed;
+    }
+    #quotes::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(4,6,15,0.93), rgba(59,130,246,0.07) 50%, rgba(4,6,15,0.96));
+    }
+    .q-inner { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 6rem 5%; }
+    .q-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(290px,1fr)); gap: 1.5rem; }
+    .q-card {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--r); padding: 2.25rem 2rem;
+      backdrop-filter: blur(20px); position: relative; overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .q-card:hover { transform: translateY(-5px); border-color: rgba(0,229,255,0.2); }
+    .qm { font-family: Georgia,serif; font-size: 5rem; line-height: 1; color: var(--neon); opacity: 0.15; position: absolute; top: 0.5rem; left: 1.2rem; }
+    .q-text { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; line-height: 1.55; margin-bottom: 1.25rem; position: relative; z-index: 1; }
+    .q-auth { display: flex; align-items: center; gap: 0.6rem; font-size: 0.8rem; color: var(--muted); }
+    .q-line { width: 24px; height: 1px; background: var(--neon); flex-shrink: 0; }
+
+    /* GALLERY */
+    #gallery { background: #060b1a; }
+    .g-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      grid-template-rows: 210px 210px;
+      gap: 0.9rem; margin-top: 3rem;
+    }
+    .g-item {
+      border-radius: 14px; overflow: hidden; position: relative; cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .g-item:nth-child(1) { grid-row: 1/3; }
+    .g-item:nth-child(5) { grid-column: 2/4; }
+    .g-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(.25,.46,.45,.94); }
+    .g-item:hover img { transform: scale(1.07); }
+    .g-ov {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(4,6,15,0.85) 0%, transparent 55%);
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 1.25rem;
+      opacity: 0; transition: opacity 0.35s;
+    }
+    .g-item:hover .g-ov { opacity: 1; }
+    .g-t { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; }
+    .g-s { font-size: 0.75rem; color: var(--neon); margin-top: 0.2rem; }
+
+    /* PRICING */
+    #pricing { background: linear-gradient(to bottom, #060b1a, var(--bg)); }
+    .p-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3rem; align-items: center; }
+    .p-card {
+      background: var(--glass); border: 1px solid var(--gb);
+      border-radius: 22px; padding: 2.5rem 2rem;
+      backdrop-filter: blur(20px); position: relative; overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .p-card:hover { transform: translateY(-5px); }
+    .p-card.hot {
+      border-color: rgba(0,229,255,0.3);
+      background: linear-gradient(160deg,rgba(0,229,255,0.05),rgba(59,130,246,0.07));
+      box-shadow: 0 0 60px rgba(0,229,255,0.1),0 20px 60px rgba(0,0,0,0.4);
+      transform: scale(1.03);
+    }
+    .p-card.hot:hover { transform: scale(1.03) translateY(-5px); }
+    .hot-b {
+      position: absolute; top: 0; right: 1.5rem;
+      background: linear-gradient(135deg,var(--neon),var(--blue));
+      color: #000; font-size: 0.65rem; font-weight: 800; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 0 0 10px 10px;
+    }
+    .p-label {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--muted); margin-bottom: 0.5rem;
+    }
+    .p-name { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; margin-bottom: 0.25rem; }
+    .p-price { font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; margin: 0.75rem 0 0.25rem; }
+    .p-card.hot .p-price { background: linear-gradient(135deg,var(--neon),var(--blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .p-per { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.25rem; }
+    .p-sep { height: 1px; background: var(--gb); margin: 1.25rem 0; }
+    .p-feats { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 1.75rem; }
+    .p-feats li { display: flex; align-items: center; gap: 0.65rem; font-size: 0.875rem; }
+    .tick { width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .ty { background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.25); color: var(--neon); }
+    .tn { background: rgba(100,116,139,0.08); border: 1px solid rgba(100,116,139,0.15); color: var(--muted); }
+    .no-f { color: var(--muted); }
+    .btn-p {
+      width: 100%; padding: 0.85rem; border-radius: 12px; font-weight: 700;
+      font-size: 0.9rem; cursor: pointer; border: none; letter-spacing: 0.01em;
+      transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 0.45rem;
+    }
+    .bo { background: transparent; border: 1px solid var(--gb); color: var(--text); }
+    .bo:hover { border-color: var(--blue); background: rgba(59,130,246,0.06); }
+    .bf { background: linear-gradient(135deg,var(--neon),var(--blue)); color: #000; box-shadow: 0 4px 20px rgba(0,229,255,0.3); }
+    .bf:hover { box-shadow: 0 8px 35px rgba(0,229,255,0.5); transform: translateY(-2px); }
+    .be { background: linear-gradient(135deg,#f59e0b,#f472b6); color: #000; box-shadow: 0 4px 20px rgba(245,158,11,0.3); }
+    .be:hover { box-shadow: 0 8px 35px rgba(245,158,11,0.5); transform: translateY(-2px); }
+
+    /* TESTIMONIALS */
+    #testi {
+      position: relative; overflow: hidden;
+      background: url('https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=1600&q=75') center/cover no-repeat;
+    }
+    #testi::before { content: ''; position: absolute; inset: 0; background: rgba(4,6,15,0.91); }
+    .t-inner { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 6rem 5%; }
+    .t-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3rem; }
+    .t-card {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--r); padding: 1.75rem;
+      backdrop-filter: blur(20px); transition: transform 0.3s, border-color 0.3s;
+    }
+    .t-card:hover { transform: translateY(-5px); border-color: rgba(0,229,255,0.18); }
+    .t-stars { color: var(--gold); font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 1rem; }
+    .t-txt { font-size: 0.9rem; color: rgba(241,245,249,0.85); line-height: 1.75; margin-bottom: 1.25rem; font-style: italic; }
+    .t-who { display: flex; align-items: center; gap: 0.75rem; }
+    .av {
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1rem; color: #fff; flex-shrink: 0;
+    }
+    .t-name { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700; }
+    .t-role { font-size: 0.75rem; color: var(--muted); }
+
+    /* CTA */
+    #cta {
+      position: relative; overflow: hidden;
+      background: url('https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=1600&q=80') center/cover no-repeat;
+    }
+    #cta::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(4,6,15,0.88), rgba(59,130,246,0.1), rgba(4,6,15,0.92));
+    }
+    .cta-wrap { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; padding: 8rem 5%; text-align: center; }
+    .cta-wrap h2 {
+      font-family: 'Syne', sans-serif; font-size: clamp(2.2rem,5vw,3.5rem);
+      font-weight: 900; letter-spacing: -0.03em; margin-bottom: 1.25rem;
+    }
+    .cta-wrap p { color: rgba(241,245,249,0.7); font-size: 1.05rem; line-height: 1.75; margin-bottom: 2.5rem; }
+    .cta-btns { display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+
+    /* FOOTER */
+    footer {
+      position: relative; z-index: 2;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      background: rgba(4,6,15,0.98);
+      padding: 4rem 5% 2rem;
+    }
+    .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .f-brand p { color: var(--muted); font-size: 0.875rem; line-height: 1.75; margin-top: 0.75rem; max-width: 260px; }
+    .f-socials { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
+    .s-btn {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      color: var(--muted); transition: border-color 0.2s, color 0.2s, background 0.2s;
+      text-decoration: none;
+    }
+    .s-btn:hover { border-color: var(--neon); color: var(--neon); background: rgba(0,229,255,0.05); }
+    .f-col h4 {
+      font-family: 'Syne', sans-serif; font-size: 0.82rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.1rem;
+    }
+    .f-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; }
+    .f-col a {
+      color: var(--muted); text-decoration: none; font-size: 0.875rem;
+      display: flex; align-items: center; gap: 0.4rem; transition: color 0.2s;
+    }
+    .f-col a:hover { color: var(--neon); }
+    .f-col a svg { width: 11px; height: 11px; flex-shrink: 0; }
+    .f-bot {
+      border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1.75rem;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+      font-size: 0.8rem; color: var(--muted);
+    }
+    .f-bot-links { display: flex; gap: 1.5rem; }
+    .f-bot-links a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .f-bot-links a:hover { color: var(--neon); }
+
+    /* REVEAL */
+    .rv { opacity: 0; transform: translateY(25px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .rv.in { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width:960px) {
+      .p-grid { grid-template-columns: 1fr; max-width: 380px; margin-inline: auto; }
+      .p-card.hot { transform: none; }
+      .t-grid { grid-template-columns: 1fr; }
+      .g-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .g-item:nth-child(1),.g-item:nth-child(5) { grid-column: auto; grid-row: auto; }
+      .f-grid { grid-template-columns: 1fr 1fr; }
+      nav .nav-links li:not(:last-child) { display: none; }
+    }
+    @media (max-width:600px) {
+      .g-grid { grid-template-columns: 1fr; }
+      .f-grid { grid-template-columns: 1fr; }
+      .stat-div { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainnav">
+  <a class="logo" href="#">
+    <div class="logo-box">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    </div>
+    AI Power Gym
+  </a>
+  <ul class="nav-links">
+    <li>
+      <a href="#features">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        Features
+      </a>
+    </li>
+    <li>
+      <a href="#gallery">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        Gallery
+      </a>
+    </li>
+    <li>
+      <a href="#pricing">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Pricing
+      </a>
+    </li>
+    <li>
+      <a href="#testi">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Results
+      </a>
+    </li>
+    <li>
+      <a href="#pricing" class="btn-nav">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Start Now
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><div class="dot-live"></div> AI-Powered Fitness · Est. 2024</div>
+    <h1 class="hero-title">
+      <span class="wh">PRIME FITNESS</span>
+      <span class="gr"><span id="typer">with AI</span><span class="cursor"></span></span>
+    </h1>
+    <p class="hero-sub">Real-time AI coaching, smart nutrition plans, and data-driven workouts — engineered to unlock your maximum potential.</p>
+    <div class="hero-btns">
+      <a href="#pricing" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Start Membership
+      </a>
+      <a href="#gallery" class="btn-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        Tour the Gym
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-n">10K+</div><div class="stat-l">Members</div></div>
+      <div class="stat-div"></div>
+      <div class="stat"><div class="stat-n">98%</div><div class="stat-l">Satisfaction</div></div>
+      <div class="stat-div"></div>
+      <div class="stat"><div class="stat-n">50+</div><div class="stat-l">AI Models</div></div>
+      <div class="stat-div"></div>
+      <div class="stat"><div class="stat-n">4.9★</div><div class="stat-l">App Rating</div></div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="s-inner">
+    <div class="rv">
+      <div class="s-label">What We Offer</div>
+      <h2 class="s-title">AI Features That <span class="ac">Change Everything</span></h2>
+      <p class="s-sub">Six powerful AI-driven modules built to maximize your performance and accelerate results at every level.</p>
+    </div>
+    <div class="feat-grid">
+
+      <div class="feat-card rv" style="transition-delay:.05s">
+        <div class="fi" style="background:rgba(0,229,255,0.1);box-shadow:0 0 20px rgba(0,229,255,0.15)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--neon)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <h3>AI Personal Coach</h3>
+        <p>Your 24/7 virtual coach adapts every workout in real-time based on fatigue, recovery, and live performance data.</p>
+        <span class="f-tag" style="color:var(--neon);border-color:rgba(0,229,255,0.2);background:rgba(0,229,255,0.06)">Live Coaching</span>
+      </div>
+
+      <div class="feat-card rv" style="transition-delay:.1s">
+        <div class="fi" style="background:rgba(34,197,94,0.1);box-shadow:0 0 20px rgba(34,197,94,0.15)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>Smart Diet Planning</h3>
+        <p>Personalized macro-based meal plans generated daily based on your goals, metabolism, and taste preferences.</p>
+        <span class="f-tag" style="color:var(--green);border-color:rgba(34,197,94,0.2);background:rgba(34,197,94,0.06)">Nutrition AI</span>
+      </div>
+
+      <div class="feat-card rv" style="transition-delay:.15s">
+        <div class="fi" style="background:rgba(59,130,246,0.1);box-shadow:0 0 20px rgba(59,130,246,0.15)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <h3>Progress Tracking</h3>
+        <p>Track every rep, set, and session with AI-generated visual reports showing your strength growth week-over-week.</p>
+        <span class="f-tag" style="color:var(--blue);border-color:rgba(59,130,246,0.2);background:rgba(59,130,246,0.06)">Analytics</span>
+      </div>
+
+      <div class="feat-card rv" style="transition-delay:.2s">
+        <div class="fi" style="background:rgba(168,85,247,0.1);box-shadow:0 0 20px rgba(168,85,247,0.15)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4.03 3-9 3S3 13.66 3 12"/><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/></svg>
+        </div>
+        <h3>Smart Analytics</h3>
+        <p>Deep performance insights using bio-metric data, sleep patterns, and workout history to optimize your schedule.</p>
+        <span class="f-tag" style="color:var(--purple);border-color:rgba(168,85,247,0.2);background:rgba(168,85,247,0.06)">Deep Insights</span>
+      </div>
+
+      <div class="feat-card rv" style="transition-delay:.25s">
+        <div class="fi" style="background:rgba(244,114,182,0.1);box-shadow:0 0 20px rgba(244,114,182,0.15)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <h3>Form Correction</h3>
+        <p>Computer vision analyzes your form through your phone camera and gives real-time corrections to prevent injury.</p>
+        <span class="f-tag" style="color:var(--pink);border-color:rgba(244,114,182,0.2);background:rgba(244,114,182,0.06)">Vision AI</span>
+      </div>
+
+      <div class="feat-card rv" style="transition-delay:.3s">
+        <div class="fi" style="background:rgba(245,158,11,0.1);box-shadow:0 0 20px rgba(245,158,11,0.15)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <h3>Adaptive Programs</h3>
+        <p>Programs that self-update every week based on your recovery, soreness levels, and performance benchmarks.</p>
+        <span class="f-tag" style="color:var(--gold);border-color:rgba(245,158,11,0.2);background:rgba(245,158,11,0.06)">Dynamic Plans</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MOTIVATION QUOTES (gym bg) -->
+<section id="quotes">
+  <div class="q-inner">
+    <div class="rv" style="text-align:center;margin-bottom:3rem">
+      <div class="s-label" style="justify-content:center">Fuel Your Mind</div>
+      <h2 class="s-title" style="text-align:center">Words That <span class="ac">Ignite Champions</span></h2>
+      <p class="s-sub" style="margin:0 auto;text-align:center">The right mindset is your most powerful muscle. Feed it daily.</p>
+    </div>
+    <div class="q-grid">
+
+      <div class="q-card rv" style="transition-delay:.05s">
+        <div class="qm">"</div>
+        <p class="q-text">The pain you feel today will be the strength you feel tomorrow. Push through — your limits are a lie.</p>
+        <div class="q-auth"><div class="q-line"></div> Arnold Schwarzenegger</div>
+      </div>
+
+      <div class="q-card rv" style="transition-delay:.1s">
+        <div class="qm">"</div>
+        <p class="q-text">Success isn't given. It's earned in the gym, on the track, in the field — every single day without exception.</p>
+        <div class="q-auth"><div class="q-line"></div> Nike Ethos</div>
+      </div>
+
+      <div class="q-card rv" style="transition-delay:.15s">
+        <div class="qm">"</div>
+        <p class="q-text">Your body can stand almost anything. It's your mind you have to convince first. Train the mind — the body follows.</p>
+        <div class="q-auth"><div class="q-line"></div> Unknown Champion</div>
+      </div>
+
+      <div class="q-card rv" style="transition-delay:.2s">
+        <div class="qm">"</div>
+        <p class="q-text">No shortcuts. No excuses. No regrets. The iron never lies — and neither does your data. Show up every damn day.</p>
+        <div class="q-auth"><div class="q-line"></div> AI Power Gym Ethos</div>
+      </div>
+
+      <div class="q-card rv" style="transition-delay:.25s">
+        <div class="qm">"</div>
+        <p class="q-text">The difference between who you are and who you want to be is what you do when no one is watching you.</p>
+        <div class="q-auth"><div class="q-line"></div> David Goggins</div>
+      </div>
+
+      <div class="q-card rv" style="transition-delay:.3s">
+        <div class="qm">"</div>
+        <p class="q-text">Fall seven times, stand eight. Every rep you finish when you want to quit builds the champion that lives inside.</p>
+        <div class="q-auth"><div class="q-line"></div> Japanese Proverb</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="s-inner">
+    <div class="rv">
+      <div class="s-label">Inside the Gym</div>
+      <h2 class="s-title">World-Class <span class="ac">Facilities</span></h2>
+      <p class="s-sub">State-of-the-art equipment, premium zones, and tech-enabled spaces built for serious athletes.</p>
+    </div>
+    <div class="g-grid rv" style="transition-delay:.1s">
+
+      <div class="g-item">
+        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=900&q=85" alt="Main gym floor" loading="lazy" />
+        <div class="g-ov"><div class="g-t">Main Training Floor</div><div class="g-s">50,000 sq ft · 200+ machines</div></div>
+      </div>
+
+      <div class="g-item">
+        <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=700&q=80" alt="Dumbbells" loading="lazy" />
+        <div class="g-ov"><div class="g-t">Free Weights Zone</div><div class="g-s">5kg – 150kg · Full rack</div></div>
+      </div>
+
+      <div class="g-item">
+        <img src="https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3?w=700&q=80" alt="Treadmills" loading="lazy" />
+        <div class="g-ov"><div class="g-t">Cardio Suite</div><div class="g-s">AI-synced treadmills & bikes</div></div>
+      </div>
+
+      <div class="g-item">
+        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=700&q=80" alt="CrossFit" loading="lazy" />
+        <div class="g-ov"><div class="g-t">CrossFit Arena</div><div class="g-s">Rigs · Boxes · Battle ropes</div></div>
+      </div>
+
+      <div class="g-item">
+        <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=900&q=80" alt="Yoga" loading="lazy" />
+        <div class="g-ov"><div class="g-t">Yoga & Recovery Studio</div><div class="g-s">Meditation · Stretch · Ice bath</div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="s-inner">
+    <div class="rv" style="text-align:center;max-width:580px;margin:0 auto">
+      <div class="s-label" style="justify-content:center">Membership Plans</div>
+      <h2 class="s-title" style="text-align:center">Choose Your <span class="ac">Power Level</span></h2>
+      <p class="s-sub" style="margin:0 auto;text-align:center">Flexible plans for every goal. Upgrade or cancel anytime — zero hidden fees.</p>
+    </div>
+    <div class="p-grid">
+
+      <div class="p-card rv" style="transition-delay:.05s">
+        <div class="p-label">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
+          Basic Plan
+        </div>
+        <div class="p-name">Starter</div>
+        <div class="p-price">₹999</div>
+        <div class="p-per">/ month · billed monthly</div>
+        <div class="p-sep"></div>
+        <ul class="p-feats">
+          <li><span class="tick ty"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></span> Full gym floor access</li>
+          <li><span class="tick ty"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></span> Basic AI workout plans</li>
+          <li><span class="tick ty"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></span> Progress dashboard</li>
+          <li><span class="tick ty"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></span> Group classes (2/week)</li>
+          <li class="no-f"><span class="tick tn">—</span> Personal AI coach</li>
+          <li class="no-f"><span class="tick tn">—</span> Diet planning</li>
+          <li class="no-f"><span class="tick tn">—</span> Form correction AI</li>
+        </ul>
+        <button class="btn-p bo" onclick="alert('✅ Starter plan selected!\n\nRedirecting to signup page...')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          Get Starter
+        </button>
+      </div>
+
+      <div class="p-card hot rv" style="transition-delay:.1s">
+        <div class="hot-b">⚡ Most Popular</div>
+        <div class="p-label" style="color:var(--neon)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--neon)" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Pro Plan
+        </div>
+        <div class="p-name" style="background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Power Pro</div>
+        <div class="p-price">₹1,999</div>
+        <div class="p-per">/ month · billed monthly</div>
+        <div class="p-sep"></div>
+        <ul class="p-feats">
+          <li><span class="tick ty"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></span> Everything in Starter</li>
+          <li><span class="tick ty"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></span> 24/7 AI Personal Coach</li>
+          <li><span class="tick ty"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></span> Smart diet planning</li>
+          <li><span class="tick ty"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></span> Form correction AI</li>
+          <li><span class="tick ty"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></span> Unlimited group classes</li>
+          <li><span class="tick ty"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></span> Weekly progress reports</li>
+          <li class="no-f"><span class="tick tn">—</span> 1-on-1 human trainer</li>
+        </ul>
+        <button class="btn-p bf" onclick="alert('🚀 Power Pro selected!\n\nStarting your 7-day FREE trial...')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Start Pro Free →
+        </button>
+      </div>
+
+      <div class="p-card rv" style="transition-delay:.15s">
+        <div class="p-label" style="background:linear-gradient(135deg,#f59e0b,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Elite Plan
+        </div>
+        <div class="p-name" style="background:linear-gradient(135deg,#f59e0b,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Champion</div>
+        <div class="p-price" style="background:linear-gradient(135deg,#f59e0b,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent">₹3,499</div>
+        <div class="p-per">/ month · billed monthly</div>
+        <div class="p-sep"></div>
+        <ul class="p-feats">
+          <li><span class="tick" style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);color:#f59e0b"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></span> Everything in Pro</li>
+          <li><span class="tick" style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);color:#f59e0b"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></span> 4× monthly human trainer</li>
+          <li><span class="tick" style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);color:#f59e0b"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></span> Advanced bio-analytics</li>
+          <li><span class="tick" style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);color:#f59e0b"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></span> Priority booking & lanes</li>
+          <li><span class="tick" style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);color:#f59e0b"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></span> Spa & recovery lounge</li>
+          <li><span class="tick" style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);color:#f59e0b"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></span> Branded Elite gear kit</li>
+          <li><span class="tick" style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);color:#f59e0b"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></span> VIP community events</li>
+        </ul>
+        <button class="btn-p be" onclick="alert('🏆 Champion Elite selected!\n\nWelcome to the top 1%. Our team will call you shortly.')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Go Champion
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS (gym bg) -->
+<section id="testi">
+  <div class="t-inner">
+    <div class="rv">
+      <div class="s-label">Member Results</div>
+      <h2 class="s-title">Real People, <span class="ac">Real Gains</span></h2>
+      <p class="s-sub">10,000+ members have transformed their bodies and lives with AI Power Gym.</p>
+    </div>
+    <div class="t-grid">
+      <div class="t-card rv" style="transition-delay:.05s">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-txt">"The AI coach is remarkable. It predicted my plateau two weeks before I felt it and adjusted my program automatically. Lost 18kg in just 5 months."</p>
+        <div class="t-who">
+          <div class="av" style="background:linear-gradient(135deg,var(--blue),var(--purple))">A</div>
+          <div><div class="t-name">Arjun Mehta</div><div class="t-role">Software Engineer · Pro Member · Hyderabad</div></div>
+        </div>
+      </div>
+      <div class="t-card rv" style="transition-delay:.1s">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-txt">"Diet planning alone is worth every rupee. Meals planned weekly, macros calculated automatically. I just cook, eat, and grow. So incredibly simple and effective."</p>
+        <div class="t-who">
+          <div class="av" style="background:linear-gradient(135deg,var(--pink),var(--purple))">P</div>
+          <div><div class="t-name">Priya Sharma</div><div class="t-role">UX Designer · Elite Member · Bangalore</div></div>
+        </div>
+      </div>
+      <div class="t-card rv" style="transition-delay:.15s">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-txt">"The vision AI form correction caught my squat issue my old trainer missed for 2 years. Chronic knee pain gone in 3 weeks. This is genuinely the future of fitness."</p>
+        <div class="t-who">
+          <div class="av" style="background:linear-gradient(135deg,var(--gold),#f97316)">R</div>
+          <div><div class="t-name">Rahul Nair</div><div class="t-role">CA · Pro Member · Mumbai</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA (yoga bg) -->
+<section id="cta">
+  <div class="cta-wrap rv">
+    <div class="s-label" style="justify-content:center;margin-bottom:1.25rem">Limited Time</div>
+    <h2>
+      Start Your<br>
+      <span style="background:linear-gradient(135deg,var(--neon),var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent">
+        Transformation Today
+      </span>
+    </h2>
+    <p>Join 10,000+ members already training smarter. Your first 7 days are completely free — no credit card required, no contracts.</p>
+    <div class="cta-btns">
+      <a href="#pricing" class="btn-primary" style="font-size:1.05rem;padding:1rem 2.2rem">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Get Free Week
+      </a>
+      <a href="tel:+919876543210" class="btn-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        Call Us
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-grid">
+    <div class="f-brand">
+      <a class="logo" href="#" style="display:inline-flex">
+        <div class="logo-box">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        AI Power Gym
+      </a>
+      <p>The world's most advanced AI-powered fitness center. Train smarter, recover faster, achieve the impossible.</p>
+      <div class="f-socials">
+        <a class="s-btn" href="https://instagram.com" target="_blank" title="Instagram">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a class="s-btn" href="https://youtube.com" target="_blank" title="YouTube">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.4 19.54C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 001.94-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+        </a>
+        <a class="s-btn" href="https://wa.me/919876543210" target="_blank" title="WhatsApp">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+        </a>
+        <a class="s-btn" href="mailto:hello@aipowergym.in" title="Email">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="f-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="#features"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>AI Features</a></li>
+        <li><a href="#pricing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Membership</a></li>
+        <li><a href="#gallery"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Gallery</a></li>
+        <li><a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Live Classes</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>About Us</a></li>
+        <li><a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Careers</a></li>
+        <li><a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Blog</a></li>
+        <li><a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Press Kit</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>Contact</h4>
+      <ul>
+        <li>
+          <a href="tel:+919876543210">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+            +91 98765 43210
+          </a>
+        </li>
+        <li>
+          <a href="mailto:hello@aipowergym.in">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            hello@aipowergym.in
+          </a>
+        </li>
+        <li>
+          <a href="https://maps.google.com" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Hyderabad, India
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            Privacy Policy
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="f-bot">
+    <span>© 2026 AI Power Gym · Hyderabad, India. All rights reserved.</span>
+    <div class="f-bot-links">
+      <a href="#">Terms</a>
+      <a href="#">Privacy</a>
+      <a href="#">Cookies</a>
+    </div>
+    <span>Made for champions ⚡</span>
+  </div>
+</footer>
+
+<script>
+  // TYPING
+  const words = ["with AI","Every Day","with Data","Like a Pro","Smarter"];
+  let wi=0,ci=0,del=false;
+  const typer=document.getElementById('typer');
+  function tick(){
+    const w=words[wi];
+    if(!del){ci++;typer.textContent=w.slice(0,ci);if(ci===w.length){del=true;setTimeout(tick,2000);return;}}
+    else{ci--;typer.textContent=w.slice(0,ci);if(ci===0){del=false;wi=(wi+1)%words.length;}}
+    setTimeout(tick,del?55:85);
+  }
+  setTimeout(tick,1200);
+
+  // NAV SCROLL
+  window.addEventListener('scroll',()=>{
+    document.getElementById('mainnav').classList.toggle('scrolled',window.scrollY>60);
+  });
+
+  // SCROLL REVEAL
+  const ro=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target);}});
+  },{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
+</script>
+</body>
+</html>
